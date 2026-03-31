@@ -20,13 +20,13 @@ namespace AiManual.API.Controllers
         {
             try
             {
-                if (request == null || string.IsNullOrWhiteSpace(request.Question))
+                if (request == null || string.IsNullOrWhiteSpace(request.question))
                 {
                     return BadRequest(new { error = "Question cannot be empty." });
                 }
 
-                // ✅ USE CORRECT METHOD NAME
-                var answer = await _chatService.GetAnswer(request.Question);
+                // ✅ USE CORRECT METHOD
+                var answer = await _chatService.GetAnswer(request.question);
 
                 return Ok(new
                 {
