@@ -30,7 +30,7 @@ namespace AiManual.API.Controllers
                 // 🔥 Get AI response
                 var answer = await _chatService.GetAnswer(request.Question);
 
-                // ✅ Return clean JSON (VERY IMPORTANT for Unity)
+                // ✅ Return clean JSON (Unity friendly)
                 return Ok(new
                 {
                     response = answer
