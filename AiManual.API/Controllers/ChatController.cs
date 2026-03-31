@@ -15,22 +15,19 @@ namespace AiManual.API.Controllers
             _chatService = chatService;
         }
 
-        // ✅ POST: api/chat/ask
         [HttpPost("ask")]
         public async Task<IActionResult> Ask([FromBody] ChatRequest request)
         {
             try
             {
-                // 🔍 Validate input
                 if (request == null || string.IsNullOrWhiteSpace(request.Question))
                 {
                     return BadRequest(new { error = "Question cannot be empty." });
                 }
 
-                // 🔥 Get AI response
+                // ✅ USE CORRECT METHOD NAME
                 var answer = await _chatService.GetAnswer(request.Question);
 
-                // ✅ Return clean JSON (Unity friendly)
                 return Ok(new
                 {
                     response = answer
@@ -38,7 +35,6 @@ namespace AiManual.API.Controllers
             }
             catch (Exception ex)
             {
-                // ❌ Handle errors safely
                 return StatusCode(500, new
                 {
                     error = "Internal Server Error",
