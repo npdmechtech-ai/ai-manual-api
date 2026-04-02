@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "AiManual.API.Controllers.ChatController",
+    "Method": "Ask",
+    "RelativePath": "api/chat/ask",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "AiManual.API.Models.ChatRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,20 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "AiManual.API": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+
+      // 🔥 Swagger auto open
+      "launchUrl": "swagger",
+
+      // 🔥 Use both localhost & 127.0.0.1
+      "applicationUrl": "http://localhost:10000;http://127.0.0.1:10000",
+
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
