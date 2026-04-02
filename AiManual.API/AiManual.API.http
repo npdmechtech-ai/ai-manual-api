@@ -1,6 +1,0 @@
-@AiManual.API_HostAddress = http://localhost:5057
-
-GET {{AiManual.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
