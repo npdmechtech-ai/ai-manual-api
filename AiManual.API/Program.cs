@@ -1,11 +1,13 @@
-﻿using AiManual.API.Services;
+using AiManual.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔥 FORCE SERVER + PORT (NO LOCALHOST ISSUE)
+// 🔥 FIX: USE RENDER PORT (MANDATORY)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(10000);
+    options.ListenAnyIP(int.Parse(port));
 });
 
 // 🔧 SERVICES
@@ -21,20 +23,31 @@ builder.Services.AddSingleton<ChatService>();
 
 var app = builder.Build();
 
-// 🔥 CRITICAL FIX: INITIALIZE EMBEDDINGS (RAG ENGINE START)
-using (var scope = app.Services.CreateScope())
+// 🔥 ROOT ENDPOINT (BROWSER TEST)
+app.MapGet("/", () => "✅ API is running");
+
+// 🔥 INITIALIZE EMBEDDINGS (SAFE EXECUTION)
+try
 {
-    var dataService = scope.ServiceProvider.GetRequiredService<DataService>();
-    var embeddingService = scope.ServiceProvider.GetRequiredService<EmbeddingService>();
+    using (var scope = app.Services.CreateScope())
+    {
+        var dataService = scope.ServiceProvider.GetRequiredService<DataService>();
+        var embeddingService = scope.ServiceProvider.GetRequiredService<EmbeddingService>();
 
-    Console.WriteLine("⏳ Initializing embeddings...");
+        Console.WriteLine("⏳ Initializing embeddings...");
 
-    await dataService.InitializeEmbeddings(embeddingService);
+        await dataService.InitializeEmbeddings(embeddingService);
 
-    Console.WriteLine("✅ Embeddings initialized successfully.");
+        Console.WriteLine("✅ Embeddings initialized successfully.");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine("❌ Embedding initialization failed:");
+    Console.WriteLine(ex.Message);
 }
 
-// 🔥 ENABLE SWAGGER
+// 🔥 SWAGGER (OPTIONAL BUT USEFUL)
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -45,6 +58,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 // 🔥 DEBUG LOG
-Console.WriteLine("🚀 API RUNNING ON: http://127.0.0.1:10000/swagger");
+Console.WriteLine($"🚀 API RUNNING ON PORT: {port}");
 
 app.Run();
